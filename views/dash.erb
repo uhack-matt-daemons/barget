@@ -1,9 +1,9 @@
-<div class="col-md-8">
-	<% @item_stats.each do |id, hash| %>
-	<%= hash[:item].render %>
-	<% end %>
-</div>
-<div class="col-md-4">
-	<a href="/items/list" class="btn btn-primary btn-lg btn-block">View List</a>
-	<a href="/items/add" class="btn btn-primary btn-lg btn-block">Add Item</a>
+<div class="row" style="margin-top: 2em;">
+	<div class="col-md-8">
+		<h2>These items are expected to expire soon:</h2>
+	</div>
+	<div class="col-md-4">
+		<a href="/items/list" class="btn btn-primary btn-lg btn-block">View List</a>
+		<a href="/items/add" class="btn btn-primary btn-lg btn-block">Add Item</a>
+	</div>
 </div>

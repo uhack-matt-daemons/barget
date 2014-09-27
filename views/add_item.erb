@@ -14,5 +14,5 @@
 	<a href="http://zxing.appspot.com/scan?ret=<%= scan_callback_url %>&SCAN_FORMATS=UPC_A,EAN_13" class="btn btn-info pull-left">Scan Barcode</a>
 </div>
 <% @items.each do |item| %>
-	<%= item.render(:add_button => true) %>
+	<%= item.render([:add_button]) %>
 <% end %>

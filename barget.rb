@@ -46,10 +46,7 @@ end
 
 get '/dash' do
 	validate_user
-	@item_stats = {}
-	@user.item_stats.each do |id, stats|
-		@item_stats[id] = stats.merge({:item => Target.product(id)})
-	end
+	#@analytics = Analytics.user(@user.id).map{|e| Target.product(e[2])}
 	render_page :dash
 end
 
@@ -77,9 +74,9 @@ post '/items/add/*' do |dpci|
 	redirect '/items/list'
 end
 
-post '/items/expire/*' do |id|
+post '/items/expire/*' do |dpci|
 	validate_user
-	$db.expire_item(id)
+	@user.expire_item(dpci)
 	redirect '/items/list'
 end
 

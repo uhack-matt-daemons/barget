@@ -5,9 +5,14 @@
 		<br />
 		<h2><%= item.price %></h2>
 		<br />
-		<% if add_button %>
-			<form role="form" name="add-item" action="/product/add/<%= item.dpci %>" method="post" style="overflow:auto;">
-				<input type="submit" class="btn btn-default fleft" value="Add Item">
+		<% if opts.include? :add_button %>
+			<form role="form" name="add-item" action="/items/add/<%= item.dpci %>" method="post" style="overflow:auto;">
+				<input type="submit" class="btn btn-default pull-left" value="Add Item">
+			</form>
+		<% end %>
+		<% if opts.include? :remove_button %>
+			<form role="form" name="remove-item" action="/items/expire/<%= item.dpci %>" method="post" style="overflow:auto;">
+				<input type="submit" class="btn btn-default pull-left" value="Remove Item">
 			</form>
 		<% end %>
 	</div>

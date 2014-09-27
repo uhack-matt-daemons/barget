@@ -22,12 +22,12 @@ class Target
 	end
 
 	def self.product(id, q = {'idType' => 'DPCI'})
-		Product.new(self.get("/products/#{id}", opts(q)))
+		ProductDetails.new(self.get("/products/#{id}", opts(q)))
 	end
 
 end
 
-class Product
+class ProductDetails
 	def initialize(data)
 		@data = data['CatalogEntryView'][0]
 	end
@@ -48,10 +48,13 @@ class Product
 		@data['Images'][0]['PrimaryImage'][0]['image']
 	end
 
-	def render(opts = {:add_button => false})
+	def render(opts = [])
 		require 'erubis'
 		view = Erubis::Eruby.new(File.read(File.expand_path 'views/snippets/product.erb'))
-		opts[:item] = self
-		view.result(opts)
+		locals = {
+				:item => self,
+				:opts => opts
+		}
+		view.result(locals)
 	end
 end

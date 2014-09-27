@@ -1,4 +1,7 @@
 <h1>My Items</h1>
 <% @items.each do |item| %>
-	<%= item.render %>
+	<%= item.render([:remove_button]) %>
+<% end %>
+<% if @items.empty? %>
+	You don't have any items yet!
 <% end %>
