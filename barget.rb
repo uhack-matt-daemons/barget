@@ -80,8 +80,8 @@ end
 
 get '/product/add/barcode/*' do |dpci|
 	validate_user
-	@user.add_item(dpci)
-	redirect '/profile'
+	@items = Target.product_search(dcpi).map {|id| Target.product id}
+	render_page :add_item
 end
 
 get '/product/search/*' do |searchTerm|
