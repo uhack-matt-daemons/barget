@@ -21,7 +21,7 @@ end
 
 get '/login' do
 	@msg = 'Bad login. Try again.' if params[:bad_attempt]
-	redirect '/profile' if session[:user_id]
+	redirect '/profileStats' if session[:user_id]
 	render_page :login
 end
 
@@ -35,6 +35,7 @@ post '/login' do
 	end
 end
 
+
 get '/logout' do
 	session[:user_id] = nil
 	redirect '/login'
@@ -45,6 +46,29 @@ get '/profile' do
 	redirect '/login' unless @user
 	@items = @user.items.map {|i| Target.product(i)}
 	render_page :profile
+end
+
+get '/profileStats' do
+	@user = User.get(session[:user_id])
+	redirect '/login' unless @user
+	@items = $db.user_items(@user.id).group_by {|i| i[2]}
+	str = ""
+	@items.each do |id,ids|
+		i=0
+		diff=0
+		p "id.length: #{ids.length}"
+		while i< (ids.length-1) do
+			p i
+			p ids
+			day2 = DateTime.parse(ids[i+1][3]).yday
+			day1 = DateTime.parse(ids[i][3]).yday
+			diff = diff + (day2 - day1)
+			i = i + 1
+		end
+		diff = diff/i
+		str += "#{id} #{diff}\n"
+	end
+	return str
 end
 
 get '/scanned/*/*' do |user,barcode|
@@ -83,4 +107,8 @@ end
 
 get '/about' do
 	render_page :about
+end
+
+get '/populate' do
+	$db.populate().to_s
 end
