@@ -60,7 +60,7 @@ class DB
 		end
 		#@db.execute("INSERT INTO stuff (userID,itemID) VALUES (1,'080-00-1464'),(2,'080-00-1464'),(1,'203-60-0820'),(2,'203-60-0820')")
 		@db.execute("INSERT INTO stuff (userID,itemID,timestamp) VALUES (1,'080-00-1464','2010-12-12'),(2,'080-00-1464','2011-4-20'),(1,'203-60-0820','2011-6-10'),(2,'203-60-0820','2011-12-25')")
-		@db.execute("INSERT INTO stuff (userID,itemID,timestamp) VALUES (1,'080-00-1464','2010-12-17'),(2,'080-00-1464','2011-4-25'),(1,'203-60-0820','2011-6-15'),(2,'203-60-0820','2011-12-30')")
+		@db.execute("INSERT INTO stuff (userID,itemID,timestamp,expired) VALUES (1,'080-00-1464','2010-12-17', 1),(2,'080-00-1464','2011-4-25', 1),(1,'203-60-0820','2011-6-15', 1),(2,'203-60-0820','2011-12-30', 1)")
 		return @db.execute("SELECT * from stuff,users");
 	end
 	#array of items purchased by same perosn more than once
