@@ -18,9 +18,9 @@ get '/login' do
 end
 
 post '/login' do
-	user_id = $db.getUserID(params[:username])
-	if user_id
-		session[:user_id] = user_id
+	user = User.find(params[:username])
+	if user
+		session[:user_id] = user.id
 		redirect '/login'
 	else
 		redirect '/login?bad_attempt=true'
@@ -39,7 +39,11 @@ get '/profile' do
 end
 
 get '/scanned/*/*' do |user,barcode|
-	"#{user} scanned a #{barcode}."
+	if $db.item_add(user,Target.product_search(barcode)[0])
+		'Added item'
+	else
+		'Fuck, didn\'t work'
+	end
 end
 
 get '/product/search/*' do |searchTerm|

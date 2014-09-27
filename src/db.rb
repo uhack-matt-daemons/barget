@@ -16,14 +16,15 @@ class DB
 			CREATE TABLE IF NOT EXISTS stuff(
 					id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 					userID INTEGER,
-					itemID CHAR(11)
+					itemID CHAR(11),
+					timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
 					);
 		SQL
 	end
 	def user_add(name)
 		@db.execute "INSERT INTO users (name) VALUES (?)",name
 	end
-	def stuff_add(user,item)
+	def item_add(user,item)
 		@db.execute "INSERT INTO stuff (userID, itemID) VALUES (?,?)",user,item
 	end
 
@@ -38,12 +39,17 @@ class DB
 	def user_find(name)
 		@db.execute "SELECT * FROM users WHERE name = ?", name
 	end
+	def populate()
+		@db.execute("INSERT INTO users (name) VALUES ('Dave'),('Joe')")
+		@db.execute("INSERT INTO stuff (userID,itemID) VALUES (1,'080-00-1464'),(2,'080-00-1464'),(1,'203-60-0820'),(2,'203-60-0820')")
+		# return @db.execute("SELECT * from stuff,users");
+	end
 end
 
-$db = DB.new()
+$db = DB.new
 
 class User
-	attr_accessor :name
+	attr_accessor :name, :id
 	def initialize(data)
 		@id = data[0]
 		@name = data[1]

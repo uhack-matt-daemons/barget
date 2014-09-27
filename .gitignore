@@ -1,3 +1,5 @@
+*.swp
+sqlite.db
 # Created by https://www.gitignore.io
 
 ### Ruby ###
