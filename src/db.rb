@@ -48,11 +48,11 @@ class DB
 
 	#array of items purchased by same perosn more than once
 	def repeatItemsUser(id)
-		@db.execute("SELECT A.* FROM stuff A WHERE A.userID = ? AND EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id);",id);
+		@db.execute("SELECT A.* FROM stuff A WHERE A.userID = ? AND EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id) ORDER BY timestamp ASC",id);
 	end
 	#all users
 	def repeatItems()
-		@db.execute("SELECT A.* FROM stuff A WHERE EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id)");
+		@db.execute("SELECT A.* FROM stuff A WHERE EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id) ORDER BY timestamp ASC");
 	end
 end
 
@@ -84,5 +84,51 @@ class User
 	def self.find(name)
 		res = $db.user_find name
 		res.size == 1 ? User.new(res[0]) : nil
+	end
+end
+
+class Analytics
+	def self.user(id)
+		grouped_items = $db.repeatItemsUser(id).group_by {|i| i[2]}
+		@item_stats = {}
+		grouped_items.each {|id,_| @item_stats[id] = {}}
+		grouped_items.each do |id,ids|
+			p ids
+			i=0
+			diff=0
+			while i< (ids.length-1) do
+				day2 = DateTime.parse(ids[i+1][3]).yday
+				day1 = DateTime.parse(ids[i][3]).yday
+				diff = diff + (day2 - day1)
+				i = i + 1
+			end
+			diff = diff/i
+			@item_stats[id][:average_diff] = diff
+			@item_stats[id][:popularity] = i
+			@item_stats[id][:most_recent_add] = ids[0][3]
+			@item_stats[id][:expected_expiration_in] = Date.parse(ids[0][3]) + diff
+		end
+		@item_stats
+	end
+
+	def self.global()
+		grouped_items = $db.repeatItems().group_by {|i| i[2]}
+		@item_stats = {}
+		grouped_items.each {|id,_| @item_stats[id] = {}}
+		grouped_items.each do |id,ids|
+			i=0
+			diff=0
+			while i< (ids.length-1) do
+				day2 = DateTime.parse(ids[i+1][3]).yday
+				day1 = DateTime.parse(ids[i][3]).yday
+				diff = diff + (day2 - day1)
+				i = i + 1
+			end
+			diff = diff/i
+			@item_stats[id][:average_diff] = diff
+			@item_stats[id][:popularity] = i
+		end
+		@item_stats
+		
 	end
 end
