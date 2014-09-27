@@ -7,5 +7,14 @@ get '/' do
 end
 
 get '/product/search/*' do |searchTerm|
-  Target.product_search searchTerm
+  view = ''
+  Target.product_search(searchTerm).each do |id|
+    view += Target.product(id).render
+  end
+  view
+end
+
+get '/product/*' do |id|
+  product = Target.product(id)
+  product.render
 end
