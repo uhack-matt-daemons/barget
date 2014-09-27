@@ -43,16 +43,17 @@ class DB
 	def populate()
 		@db.execute("INSERT INTO users (name) VALUES ('Dave'),('Joe')")
 		@db.execute("INSERT INTO stuff (userID,itemID) VALUES (1,'080-00-1464'),(2,'080-00-1464'),(1,'203-60-0820'),(2,'203-60-0820')")
+		@db.execute("INSERT INTO stuff (userID,itemID,timestamp) VALUES (2,'080-00-1464','2010-12-12'),(2,'080-00-1464','2011-4-20'),(2,'212-30-0283','2011-6-10'),(2,'212-30-0283','2011-6-17'),(2,'212-30-0283','2012-7-24'),(2,'212-30-0283','2011-12-25');")
 		# return @db.execute("SELECT * from stuff,users");
 	end
 
 	#array of items purchased by same perosn more than once
 	def repeatItemsUser(id)
-		@db.execute("SELECT A.* FROM stuff A WHERE A.userID = ? AND EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id) ORDER BY timestamp ASC",id);
+		@db.execute("SELECT A.* FROM stuff A WHERE A.userID = ? AND EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id) ORDER BY timestamp DESC",id);
 	end
 	#all users
 	def repeatItems()
-		@db.execute("SELECT A.* FROM stuff A WHERE EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id) ORDER BY timestamp ASC");
+		@db.execute("SELECT A.* FROM stuff A WHERE EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id) ORDER BY timestamp DESC");
 	end
 end
 
@@ -93,13 +94,12 @@ class Analytics
 		@item_stats = {}
 		grouped_items.each {|id,_| @item_stats[id] = {}}
 		grouped_items.each do |id,ids|
-			p ids
 			i=0
 			diff=0
 			while i< (ids.length-1) do
 				day2 = DateTime.parse(ids[i+1][3]).yday
 				day1 = DateTime.parse(ids[i][3]).yday
-				diff = diff + (day2 - day1)
+				diff = diff + (day2 - day1).abs
 				i = i + 1
 			end
 			diff = diff/i
@@ -121,7 +121,7 @@ class Analytics
 			while i< (ids.length-1) do
 				day2 = DateTime.parse(ids[i+1][3]).yday
 				day1 = DateTime.parse(ids[i][3]).yday
-				diff = diff + (day2 - day1)
+				diff = diff + (day2 - day1).abs
 				i = i + 1
 			end
 			diff = diff/i
