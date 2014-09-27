@@ -4,7 +4,7 @@
 
 <% require 'cgi' %>
 <% scan_callback_url =  CGI.escape 'http://nominaltech.com:4567/product/add/barcode/{CODE}' %>
-<a href="http://zxing.appspot.com/scan?ret=<%= scan_callback_url %>SCAN_FORMATS=UPC_A,EAN_13" class="btn btn-info">Scan Barcode</a>
+<a href="http://zxing.appspot.com/scan?ret=<%= scan_callback_url %>&SCAN_FORMATS=UPC_A,EAN_13" class="btn btn-info">Scan Barcode</a>
 <div class="row">
 	<div class="col-md-6">
 		<h1>Add Item</h1>
