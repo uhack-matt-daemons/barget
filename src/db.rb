@@ -110,7 +110,6 @@ class Analytics
 		@item_stats = {}
 		grouped_items.each {|id,_| @item_stats[id] = {}}
 		grouped_items.each do |id,ids|
-			p ids
 			i=0
 			diff=0
 			while i< (ids.length-1) do

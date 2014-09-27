@@ -1,0 +1,7 @@
+<div class="row" style="margin-top: 2em;">
+	<h2>These items are popular with users:</h2>
+	<% @a.each do |k, v| %>
+		<% v[:popularity] %>
+		<%= Target.product(k).render %>
+	<% end %>
+</div>

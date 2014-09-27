@@ -15,5 +15,8 @@
 				<input type="submit" class="btn btn-default pull-left" value="Remove Item">
 			</form>
 		<% end %>
+		<% if predicted_expiration %>
+			Predicted Expiration Date: <%= predicted_expiration %>
+		<% end %>
 	</div>
 </div>

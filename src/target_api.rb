@@ -48,13 +48,13 @@ class ProductDetails
 		@data['Images'][0]['PrimaryImage'][0]['image']
 	end
 
-	def render(opts = [])
+	def render(opts = [], extra_locals = {:predicted_expiration => nil})
 		require 'erubis'
 		view = Erubis::Eruby.new(File.read(File.expand_path 'views/snippets/product.erb'))
 		locals = {
 				:item => self,
 				:opts => opts
-		}
+		}.merge extra_locals
 		view.result(locals)
 	end
 end

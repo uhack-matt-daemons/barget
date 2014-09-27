@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 	<meta charset="utf-8">
-	<title>Bootstrap, from Twitter</title>
+	<title>Barget Inventory</title>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<meta name="description" content="">
 	<meta name="author" content="">
@@ -59,6 +59,7 @@
 				<li <%= active if @page == :list %>><a href="/items/list">List</a></li>
 				<li <%= active if @page == :add_item %>><a href="/items/add">Add Item</a></li>
 				<li <%= active if @page == :about %>><a href="/about">About</a></li>
+				<li <%= active if @page == :analytics %>><a href="/analytics">Analytics</a></li>
 			</ul>
 			<div class="nav-profile">
 				<% if @user %>

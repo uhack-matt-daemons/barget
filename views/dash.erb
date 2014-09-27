@@ -1,6 +1,12 @@
 <div class="row" style="margin-top: 2em;">
 	<div class="col-md-8">
 		<h2>These items are expected to expire soon:</h2>
+		<% @a.each do |k, v| %>
+			<% require 'date' %>
+			<% predicted_date = (DateTime.parse(v[:most_recent_add]) + v[:average_diff]).strftime('%A, %b %e') %>
+			<%= Target.product(k).render({}, {:predicted_expiration => predicted_date}) %>
+			<br />
+		<% end %>
 	</div>
 	<div class="col-md-4">
 		<a href="/items/list" class="btn btn-primary btn-lg btn-block">View List</a>

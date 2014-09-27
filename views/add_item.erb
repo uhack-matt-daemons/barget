@@ -13,6 +13,7 @@
 	<% scan_callback_url =  CGI.escape 'http://nominaltech.com:4567/items/add/barcode/{CODE}' %>
 	<a href="http://zxing.appspot.com/scan?ret=<%= scan_callback_url %>&SCAN_FORMATS=UPC_A,EAN_13" class="btn btn-info pull-left">Scan Barcode</a>
 </div>
+<br /><br />
 <% @items.each do |item| %>
 	<%= item.render([:add_button]) %>
 <% end %>

@@ -46,7 +46,8 @@ end
 
 get '/dash' do
 	validate_user
-	#@analytics = Analytics.user(@user.id).map{|e| Target.product(e[2])}
+	@analytics = Analytics.user(@user.id).map{|e| e[2]}
+	@a = Analytics.user(@user.id)
 	render_page :dash
 end
 
@@ -89,3 +90,9 @@ end
 get '/about' do
 	render_page :about
 end
+
+get '/analytics' do
+	@a = Analytics.global
+	render_page :analytics
+end
+
