@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Bootstrap, from Twitter</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="description" content="">
+	<meta name="author" content="">
+
+	<!-- Le styles -->
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap-theme.min.css" rel="stylesheet">
+	<style>
+		body {
+			padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
+		}
+		.nav-profile {
+			float: right;
+			padding: 5px 0 5px 0;
+		}
+		.item-container {
+			padding: 1em;
+		}
+		.item {
+			text-align: center;
+			padding: 1em;
+			border: 1px solid gray;
+			border-radius: 5px;
+		}
+		.fleft{
+			float: left;
+		}
+	</style>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"rel="stylesheet">
+
+	<!-- HTML5 shim, for IE6-8 support of HTML5 elements -->
+	<!--[if lt IE 9]>
+	<script src="../assets/js/html5shiv.js"></script>
+	<![endif]-->
+
+</head>
+
+<body>
+
+<div class="navbar navbar-inverse navbar-fixed-top" role="navigation">
+	<div class="container">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+				<span class="sr-only">Toggle navigation</span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+				<span class="icon-bar"></span>
+			</button>
+			<a class="navbar-brand" href="#">Barget</a>
+		</div>
+		<div class="collapse navbar-collapse">
+			<ul class="nav navbar-nav">
+				<% active = "class='active'" %>
+				<li <%= active if @page == :profile %>><a href="/profile">Profile</a></li>
+				<li <%= active if @page == :about %>><a href="/about">About</a></li>
+			</ul>
+			<div class="nav-profile">
+				<% if @user %>
+					<span class="btn btn-default"><%= @user.name %></span>
+					<a class="btn btn-primary" href="/logout">Logout</a>
+				<% else %>
+					<a class="btn btn-primary" href="/login">Login</a>
+				<% end %>
+			</div>
+		</div><!--/.nav-collapse -->
+	</div>
+</div>
+
+<div class="container">
+	<%= yield %>
+</div> <!-- /container -->
+
+<script src="https://code.jquery.com/jquery-2.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+</body>
+</html>
