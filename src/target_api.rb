@@ -32,6 +32,10 @@ class Product
 		@data = data['CatalogEntryView'][0]
 	end
 
+	def dpci
+		@data['DPCI']
+	end
+
 	def title
 		@data['title']
 	end
@@ -44,9 +48,10 @@ class Product
 		@data['Images'][0]['PrimaryImage'][0]['image']
 	end
 
-	def render
+	def render(opts = {:add_button => false})
 		require 'erubis'
 		view = Erubis::Eruby.new(File.read(File.expand_path 'views/snippets/product.erb'))
-		view.result(:item => self)
+		opts[:item] = self
+		view.result(opts)
 	end
 end

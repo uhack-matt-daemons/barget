@@ -13,6 +13,10 @@ helpers do
 		@page = view
 		erb view, :layout => :template
 	end
+	def validate_user
+		@user = User.get(session[:user_id])
+		redirect '/login' unless @user
+	end
 end
 
 get '/' do
@@ -41,8 +45,7 @@ get '/logout' do
 end
 
 get '/profile' do
-	@user = User.get(session[:user_id])
-	redirect '/login' unless @user
+	validate_user
 	@items = @user.items.map {|i| Target.product(i)}
 	render_page :profile
 end
@@ -57,13 +60,21 @@ get '/scanned/*/*' do |user,barcode|
 end
 
 get '/product/add' do
+	validate_user
 	@items = []
 	render_page :add_item
 end
 
 post '/product/add/search' do
+	validate_user
 	@items = Target.product_search(params[:query]).map {|id| Target.product id}
 	render_page :add_item
+end
+
+post '/product/add/*' do |dpci|
+	validate_user
+	@user.add_item(dpci)
+	redirect '/profile'
 end
 
 get '/product/search/*' do |searchTerm|

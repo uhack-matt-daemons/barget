@@ -1,8 +1,14 @@
 <div class="item-container col-md-6">
 	<div class="item">
 		<h1><%= item.title %></h1>
-		<img class="img-rounded" src="<%= item.image_url %>" />
+		<img class="img-responsive centered" src="<%= item.image_url %>" />
 		<br />
-		<%= item.price %>
+		<h2><%= item.price %></h2>
+		<br />
+		<% if add_button %>
+			<form role="form" name="add-item" action="/product/add/<%= item.dpci %>" method="post" style="overflow:auto;">
+				<input type="submit" class="btn btn-default fleft" value="Add Item">
+			</form>
+		<% end %>
 	</div>
 </div>

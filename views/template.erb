@@ -26,8 +26,11 @@
 			border: 1px solid gray;
 			border-radius: 5px;
 		}
-		.fleft{
+		.fleft {
 			float: left;
+		}
+		.centered {
+			margin: 0 auto;
 		}
 	</style>
 	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css"rel="stylesheet">
@@ -56,6 +59,7 @@
 			<ul class="nav navbar-nav">
 				<% active = "class='active'" %>
 				<li <%= active if @page == :profile %>><a href="/profile">Profile</a></li>
+				<li <%= active if @page == :add_item %>><a href="/product/add">Add Item</a></li>
 				<li <%= active if @page == :about %>><a href="/about">About</a></li>
 			</ul>
 			<div class="nav-profile">

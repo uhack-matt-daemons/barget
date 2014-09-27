@@ -55,6 +55,10 @@ class User
 		@name = data[1]
 	end
 
+	def add_item(item_id)
+		$db.item_add(@id, item_id)
+	end
+
 	def items
 		$db.user_items(@id).map do |row|
 			row[2]
