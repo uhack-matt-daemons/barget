@@ -17,7 +17,8 @@ class DB
 					id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL,
 					userID INTEGER,
 					itemID CHAR(11),
-					timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL
+					timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
+					expired INTEGER
 					);
 		SQL
 	end
@@ -43,6 +44,15 @@ class DB
 		@db.execute("INSERT INTO users (name) VALUES ('Dave'),('Joe')")
 		@db.execute("INSERT INTO stuff (userID,itemID) VALUES (1,'080-00-1464'),(2,'080-00-1464'),(1,'203-60-0820'),(2,'203-60-0820')")
 		# return @db.execute("SELECT * from stuff,users");
+	end
+
+	#array of items purchased by same perosn more than once
+	def repeatItemsUser(id)
+		@db.execute("SELECT A.* FROM stuff A WHERE A.userID = ? AND EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id);",id);
+	end
+	#all users
+	def repeatItems()
+		@db.execute("SELECT A.* FROM stuff A WHERE EXISTS (SELECT B.itemID FROM stuff B WHERE B.userID = A.userID AND B.itemID = A.itemID AND A.id != B.id)");
 	end
 end
 
