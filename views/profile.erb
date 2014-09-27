@@ -1,0 +1,6 @@
+Welcome, <%= @user.name %>
+
+Items:
+<% @items.each do |item| %>
+	<%= item.render %>
+<% end %>

@@ -50,4 +50,3 @@ class Product
     view.result(:item => self)
   end
 end
-
