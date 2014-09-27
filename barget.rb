@@ -20,7 +20,8 @@ helpers do
 end
 
 get '/' do
-	redirect '/info'
+	redirect '/profile'
+  'Hey, bitches. <a href="http://zxing.appspot.com/scan?ret=http%3A%2F%2F131.212.238.82:4567%2Fscanned%2F1%2F%7BCODE%7D&SCAN_FORMATS=UPC_A,EAN_13">click here fuckers</a>'
 end
 
 get '/login' do
@@ -72,6 +73,12 @@ post '/product/add/search' do
 end
 
 post '/product/add/*' do |dpci|
+	validate_user
+	@user.add_item(dpci)
+	redirect '/profile'
+end
+
+get '/product/add/barcode/*' do |dpci|
 	validate_user
 	@user.add_item(dpci)
 	redirect '/profile'
