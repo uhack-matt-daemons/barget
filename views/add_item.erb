@@ -1,18 +1,17 @@
+<h1>Add Item</h1>
+
 <% if @msg %>
 	<p class="bg-danger" style="padding: 15px;"><%= @msg %></p>
 <% end %>
 
-<% require 'cgi' %>
-<% scan_callback_url =  CGI.escape 'http://nominaltech.com:4567/product/add/barcode/{CODE}' %>
-<a href="http://zxing.appspot.com/scan?ret=<%= scan_callback_url %>&SCAN_FORMATS=UPC_A,EAN_13" class="btn btn-info">Scan Barcode</a>
-<div class="row">
-	<div class="col-md-6">
-		<h1>Add Item</h1>
-		<form role="form" name="add-item" action="/product/add/search" method="post">
-			<input type="text" name="query" class="form-control fleft" id="query" placeholder="Search" style="width: 50%;">
-			<input type="submit" class="btn btn-default fleft">
-		</form>
-	</div>
+<div class="col-md-12">
+	<form role="form" name="add-item" action="/items/add/search" method="post">
+		<input type="text" name="query" class="form-control pull-left" id="query" placeholder="Search" style="width: 200px; margin-right: 10px; margin-bottom: 10px;">
+		<input type="submit" class="btn btn-default pull-left" style="margin-bottom: 10px; margin-right: 10px;">
+	</form>
+	<% require 'cgi' %>
+	<% scan_callback_url =  CGI.escape 'http://nominaltech.com:4567/items/add/barcode/{CODE}' %>
+	<a href="http://zxing.appspot.com/scan?ret=<%= scan_callback_url %>&SCAN_FORMATS=UPC_A,EAN_13" class="btn btn-info pull-left">Scan Barcode</a>
 </div>
 <% @items.each do |item| %>
 	<%= item.render(:add_button => true) %>

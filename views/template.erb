@@ -26,9 +26,6 @@
 			border: 1px solid gray;
 			border-radius: 5px;
 		}
-		.fleft {
-			float: left;
-		}
 		.centered {
 			margin: 0 auto;
 		}
@@ -58,8 +55,9 @@
 		<div class="collapse navbar-collapse">
 			<ul class="nav navbar-nav">
 				<% active = "class='active'" %>
-				<li <%= active if @page == :profile %>><a href="/profile">Profile</a></li>
-				<li <%= active if @page == :add_item %>><a href="/product/add">Add Item</a></li>
+				<li <%= active if @page == :dash %>><a href="/dash">Dashboard</a></li>
+				<li <%= active if @page == :list %>><a href="/items/list">List</a></li>
+				<li <%= active if @page == :add_item %>><a href="/items/add">Add Item</a></li>
 				<li <%= active if @page == :about %>><a href="/about">About</a></li>
 			</ul>
 			<div class="nav-profile">

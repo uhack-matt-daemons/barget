@@ -20,13 +20,12 @@ helpers do
 end
 
 get '/' do
-	redirect '/profile'
-  'Hey, bitches. <a href="http://zxing.appspot.com/scan?ret=http%3A%2F%2F131.212.238.82:4567%2Fscanned%2F1%2F%7BCODE%7D&SCAN_FORMATS=UPC_A,EAN_13">click here fuckers</a>'
+	redirect '/dash'
 end
 
 get '/login' do
 	@msg = 'Bad login. Try again.' if params[:bad_attempt]
-	redirect '/profile' if session[:user_id]
+	redirect '/' if session[:user_id]
 	render_page :login
 end
 
@@ -45,58 +44,49 @@ get '/logout' do
 	redirect '/login'
 end
 
-get '/profile' do
+get '/dash' do
+	validate_user
+	@item_stats = {}
+	@user.item_stats.each do |id, stats|
+		@item_stats[id] = stats.merge({:item => Target.product(id)})
+	end
+	render_page :dash
+end
+
+get '/items/list' do
 	validate_user
 	@items = @user.items.map {|i| Target.product(i)}
-	render_page :profile
+	render_page :list
 end
 
-get '/scanned/*/*' do |user,barcode|
-	if $db.item_add(user,Target.product_search(barcode)[0])
-		@content = 'Added item'
-	else
-		@content = 'Fuck, didn\'t work'
-	end
-	render_page :blank
-end
-
-get '/product/add' do
+get '/items/add' do
 	validate_user
 	@items = []
 	render_page :add_item
 end
 
-post '/product/add/search' do
+post '/items/add/search' do
 	validate_user
 	@items = Target.product_search(params[:query]).map {|id| Target.product id}
 	render_page :add_item
 end
 
-post '/product/add/*' do |dpci|
+post '/items/add/*' do |dpci|
 	validate_user
 	@user.add_item(dpci)
-	redirect '/profile'
+	redirect '/items/list'
 end
 
-get '/product/add/barcode/*' do |dpci|
+post '/items/expire/*' do |id|
+	validate_user
+	$db.expire_item(id)
+	redirect '/items/list'
+end
+
+get '/items/add/barcode/*' do |dpci|
 	validate_user
 	@items = Target.product_search(dpci).map {|id| Target.product id}
 	render_page :add_item
-end
-
-get '/product/search/*' do |searchTerm|
-	view = ''
-	Target.product_search(searchTerm).each do |id|
-		view += Target.product(id).render
-	end
-	@content = view
-	render_page :blank
-end
-
-get '/product/*' do |id|
-	product = Target.product(id)
-	@content = product.render
-	render_page :blank
 end
 
 get '/about' do

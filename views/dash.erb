@@ -1,0 +1,9 @@
+<div class="col-md-8">
+	<% @item_stats.each do |id, hash| %>
+	<%= hash[:item].render %>
+	<% end %>
+</div>
+<div class="col-md-4">
+	<a href="/items/list" class="btn btn-primary btn-lg btn-block">View List</a>
+	<a href="/items/add" class="btn btn-primary btn-lg btn-block">Add Item</a>
+</div>
