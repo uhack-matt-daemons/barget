@@ -46,7 +46,7 @@ class Product
 
 	def render
 		require 'erubis'
-		view = Erubis::Eruby.new(File.read(File.expand_path 'views/product.erb'))
+		view = Erubis::Eruby.new(File.read(File.expand_path 'views/snippets/product.erb'))
 		view.result(:item => self)
 	end
 end
