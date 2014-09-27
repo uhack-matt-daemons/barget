@@ -18,7 +18,7 @@ class DB
 					userID INTEGER,
 					itemID CHAR(11),
 					timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-					expired INTEGER
+					expired INTEGER DEFAULT 0
 					);
 		SQL
 	end
